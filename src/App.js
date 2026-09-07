@@ -1,146 +1,69 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Instagram, Facebook, MessageCircle, Camera, Layers, Aperture, ArrowRight  } from 'lucide-react';
-import { Link } from 'react-scroll';
-import one from './asset/one.jpg';
-import two from './asset/UCS_9550re.jpg';
-import three from './asset/three.jpg';
-import four from './asset/four.jpg';
-import five from './asset/five.jpg';
-import six from './asset/six.jpg';
-import seven from './asset/seven.jpg';
-import eight from './asset/eight.jpg';
-import nine from './asset/nine.jpg';
-import ten from './asset/ten.jpg';
-import hero from './asset/download.png'
-import HeroSection from './components/hero';
-import PortfolioSection from './components/section';
-import Footer from './components/footer';
-const portfolioSections = [
-  {
-    category: 'Portraits',
-    icon: Aperture,
-    image: seven,
-    description: 'Transforming products into visual masterpieces',
-    details: 'Blending technical precision with artistic vision to showcase your brand\'s unique identity.'
-  },
-  {
-    category: 'Weddings',
-    icon: Camera,
-    image: ten,
-    description: 'Capturing ethereal moments of love with cinematic precision',
-    details: 'Transforming wedding memories into timeless, luminous narratives that transcend traditional photography.'
-  },
-  {
-    category: 'Corporate Events',
-    icon: Layers,
-    image: three,
-    description: 'Elevating corporate storytelling through visionary imagery',
-    details: 'Crafting visual experiences that capture the essence of your brand\'s innovation and spirit.'
-  },
-  {
-    category: 'Newborn',
-    icon: Aperture,
-    image: four,
-    description: 'Capturing the purest moments of new life',
-    details: 'Preserving the innocence and beauty of your newborn through timeless, heartwarming photography that tells a story of love and new beginnings.'
-  },
-  {
-    category: 'Professional',
-    icon: Aperture,
-    image: five,
-    description: 'Elevating your brand with precision and expertise',
-    details: 'Delivering high-quality, expertly crafted visuals that reflect the essence of your business, with a keen eye for detail and a commitment to excellence.'
-  },
-  {
-    category: 'Modelling',
-    icon: Aperture,
-    image: eight,
-    description: 'Bringing fashion and personality to life through the lens',
-    details: 'Showcasing striking visuals that highlight beauty, confidence, and style, capturing the unique essence of every model with precision and artistry.'
-  },
+import React, { useEffect, useState } from 'react';
+import { ArrowUpRight, Crown, Instagram, Menu, Sparkles, X } from 'lucide-react';
+import one from './asset/one.webp';
+import two from './asset/UCS_9550re.webp';
+import three from './asset/three.webp';
+import four from './asset/four.webp';
+import five from './asset/five.webp';
+import six from './asset/six.webp';
+import seven from './asset/seven.webp';
+import eight from './asset/eight.webp';
+import nine from './asset/nine.webp';
+import ten from './asset/ten.webp';
+import hero from './asset/download.webp';
+
+const instagramProfile = 'https://www.instagram.com/ultimateconcept01/';
+const instagramPosts = [
+  { image: seven, title: 'Portraits', handle: '@ultimateconcept01' },
+  { image: two, title: 'Celebrations', handle: '@ultimateconcept01' },
+  { image: three, title: 'Editorial', handle: '@ultimateconcept01' },
+  { image: four, title: 'New beginnings', handle: '@ultimateconcept01' },
+  { image: five, title: 'Personal brand', handle: '@ultimateconcept01' },
+  { image: eight, title: 'Fashion stories', handle: '@ultimateconcept01' },
+  { image: one, title: 'The details', handle: '@ultimateconcept01' },
+  { image: six, title: 'In the moment', handle: '@ultimateconcept01' },
+  { image: nine, title: 'Quiet light', handle: '@ultimateconcept01' },
+  { image: ten, title: 'Newborn', handle: '@ultimateconcept01' },
 ];
+const services = ['Portraits', 'Weddings', 'Brand stories', 'Newborns', 'Events', 'Modelling'];
 
-const UltimateConceptFuturisticMotion = () => {
-  const images = [
-    one,
-    two,
-    hero,
-    four
-  ]
-
-  const [heroVariant, setHeroVariant] = useState(0);
-  const [BG, setBG] = useState(images[0]);
-
-
-  
+function App() {
+  const [activePost, setActivePost] = useState(null);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      const randomIndex = Math.floor(Math.random() * images.length);
-      setBG(images[randomIndex]);
-    }, 1000);
+    const closeOnEscape = (event) => {
+      if (event.key === 'Escape') setActivePost(null);
+    };
 
-    return () => clearTimeout(timer);
-  }, [])
+    window.addEventListener('keydown', closeOnEscape);
+    const revealElements = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setHeroVariant((prev) => (prev + 1) % 3);
-    }, 1000);
-    return () => clearInterval(interval);
+    revealElements.forEach((element) => revealObserver.observe(element));
+    return () => {
+      window.removeEventListener('keydown', closeOnEscape);
+      revealObserver.disconnect();
+    };
   }, []);
 
-  const heroBackgrounds = [
-    'bg-gradient-to-br from-gray-900 via-gray-800 to-black',
-    'bg-gradient-to-br from-blue-900 via-gray-900 to-black',
-    'bg-gradient-to-br from-purple-900 via-gray-900 to-black'
-  ];
-
-  const heroVariants = {
-    hidden: { opacity: 0, x: -50 },
-    visible: { 
-      opacity: 1, 
-      x: 0,
-      transition: { 
-        duration: 1,
-        type: "spring",
-        stiffness: 50
-      } 
-    },
-    exit: { opacity: 0, x: 50 }
-  };
-
-  const socialLinks = [
-    {
-      icon: Instagram,
-      link: 'https://www.instagram.com/ultimateconcept01/profilecard/?igsh=MXQycjAwMTVieTJ0Zw==', 
-    },
-    {
-      icon: Facebook,
-      link: 'https://www.facebook.com/profile.php?id=61556833987474&mibextid=ZbWKwL', 
-    },
-    {
-      icon: MessageCircle,
-      link: 'https://wa.me/message/6KWQEOYJWV5AE1',
-    },
-  ];
-
   return (
-    <div className="bg-gray-900 text-white overflow-x-hidden">
-      {/* Hero Section */}
-      <HeroSection
-      hero={BG}
-      socialLinks={socialLinks}
-      heroVariant={heroVariants}
-      heroBackgrounds={heroBackgrounds}
-      />
-      {/* Portfolio Sections */}
-      <PortfolioSection portfolioSections={portfolioSections}/>
-      {/* Footer */}
-      <Footer socialLinks={socialLinks}/>
-    </div>
+    <main className="site-shell">
+      <header className="site-header"><a className="brand" href="#top" aria-label="Ultimate Concept home"><span className="brand-mark"><Crown size={20} strokeWidth={1.8} /></span><span>ULTIMATE <b>CONCEPT</b></span></a><nav className="desktop-nav" aria-label="Primary navigation"><a href="#gallery">Gallery</a><a href="#about">About</a><a href="#contact">Contact</a></nav><a className="header-link" href={instagramProfile} target="_blank" rel="noreferrer">Instagram <ArrowUpRight size={15} /></a><button className="menu-button" type="button" aria-label="Toggle navigation" aria-expanded={menuOpen} onClick={() => setMenuOpen((open) => !open)}><Menu size={22} /></button>{menuOpen && <nav className="mobile-nav" aria-label="Mobile navigation"><a href="#gallery" onClick={() => setMenuOpen(false)}>Gallery</a><a href="#about" onClick={() => setMenuOpen(false)}>About</a><a href="#contact" onClick={() => setMenuOpen(false)}>Contact</a><a href={instagramProfile} target="_blank" rel="noreferrer">Instagram <ArrowUpRight size={14} /></a></nav>}</header>
+      <section className="hero" id="top"><div className="hero-copy"><p className="eyebrow"><Sparkles size={14} /> Sokoto, Nigeria / Est. 2018</p><h1>Stories worth<br /><em>remembering.</em></h1><p className="hero-intro">Photography for people, brands, and seasons that deserve to be seen beautifully.</p><div className="hero-actions"><a className="button button-dark" href="#gallery">Explore the gallery <ArrowUpRight size={17} /></a><a className="text-link" href="#contact">Book a session</a></div></div><div className="hero-portrait"><img src={hero} alt="Ultimate Concept photographer at work" fetchPriority="high" /><span className="portrait-note">The art of seeing<br /><b>what others miss.</b></span></div><div className="hero-stamp"><Crown size={22} /><span>ULTIMATE<br />CONCEPT</span></div></section>
+      <section className="intro-band reveal" id="about"><p className="section-kicker">A visual studio with a point of view</p><div className="intro-grid"><h2>Every frame<br /><em>has a feeling.</em></h2><p>We make photographs with warmth, intention, and a little bit of soul. From quiet portraits to full-scale celebrations, Ultimate Concept turns your real moments into images you will want to keep close.</p></div><div className="service-list">{services.map((service, index) => <span key={service}><small>0{index + 1}</small>{service}</span>)}</div></section>
+      <section className="gallery-section reveal" id="gallery"><div className="section-heading"><div><p className="section-kicker">Selected work</p><h2>From the <em>gallery</em></h2></div><a className="instagram-link" href={instagramProfile} target="_blank" rel="noreferrer"><Instagram size={17} /> See more on Instagram <ArrowUpRight size={15} /></a></div><div className="gallery-grid">{instagramPosts.map((post, index) => <button className={`gallery-item gallery-item-${index + 1} reveal reveal-${index % 2 === 0 ? 'left' : 'right'}`} type="button" onClick={() => setActivePost(post)} key={post.title}><img src={post.image} alt={post.title} loading={index < 3 ? 'eager' : 'lazy'} decoding="async" /><span className="gallery-overlay"><span>{post.title}<small>{post.handle}</small></span><ArrowUpRight size={19} /></span></button>)}</div></section>
+      <footer id="contact" className="site-footer reveal"><div><p className="section-kicker">Start a conversation</p><h2>Let’s make something<br /><em>worth keeping.</em></h2></div><div className="footer-details"><a className="button button-light" href="mailto:princestepha@gmail.com">Get in touch <ArrowUpRight size={17} /></a><a href={instagramProfile} target="_blank" rel="noreferrer">@ultimateconcept01</a><a href="tel:+2348106838587">+(234) 810-683-8587</a><span>Sokoto, Sokoto State</span></div><div className="copyright">© {new Date().getFullYear()} Ultimate Concept Photography <span>Made for meaningful moments.</span></div></footer>
+      {activePost && <div className="lightbox" role="dialog" aria-modal="true" aria-label={`${activePost.title} gallery image`} onClick={() => setActivePost(null)}><div className="lightbox-card" onClick={(event) => event.stopPropagation()}><button className="lightbox-close" type="button" onClick={() => setActivePost(null)} aria-label="Close image viewer"><X size={22} /></button><div className="lightbox-image"><img src={activePost.image} alt={activePost.title} /></div><div className="lightbox-details"><p className="section-kicker">Ultimate Concept / Selected work</p><h2>{activePost.title}</h2><p>{activePost.handle}</p><a className="button button-light" href={instagramProfile} target="_blank" rel="noreferrer"><Instagram size={17} /> View on Instagram <ArrowUpRight size={16} /></a></div></div></div>}
+    </main>
   );
-};
+}
 
-export default UltimateConceptFuturisticMotion;
+export default App;
