@@ -2,14 +2,17 @@
 
 :root { --ink: #07101f; --paper: #0c1424; --cream: #111e36; --blue: #4f67ff; --blue-light: #b9c8ff; --line: rgba(185, 200, 255, .25); }
 .site-shell { background: var(--paper); color: #fff; max-width: 100%; overflow: hidden; }
-.site-header { align-items: center; display: flex; height: 76px; justify-content: space-between; padding: 0 5vw; position: absolute; width: 100%; z-index: 3; }
-.brand { align-items: center; display: flex; font-size: 11px; font-weight: 700; gap: 10px; letter-spacing: .16em; }
+.site-header { align-items: center; background: linear-gradient(180deg, rgba(7, 16, 31, .9), rgba(7, 16, 31, .56)); border-bottom: 1px solid rgba(185, 200, 255, .14); display: flex; height: 88px; justify-content: space-between; padding: 0 5vw; position: absolute; width: 100%; z-index: 3; }
+.brand { align-items: center; display: flex; font-size: 11px; font-weight: 700; gap: 12px; letter-spacing: .17em; position: relative; }
 .brand b { font-weight: 400; }
-.brand-mark { align-items: center; border: 1px solid #fff; border-radius: 50%; display: flex; height: 35px; justify-content: center; width: 35px; }
-.desktop-nav { display: flex; font-size: 12px; gap: 36px; margin-left: 12%; }
+.brand-mark { align-items: center; background: var(--blue); border: 2px solid #fff; border-radius: 50%; box-shadow: 0 0 0 4px rgba(79, 103, 255, .18); display: flex; height: 39px; justify-content: center; width: 39px; }
+.desktop-nav { align-items: center; background: rgba(17, 30, 54, .72); border: 1px solid rgba(185, 200, 255, .2); border-radius: 999px; display: flex; font-size: 12px; gap: 5px; left: 50%; padding: 5px; position: absolute; transform: translateX(-50%); }
+.desktop-nav a { border-radius: 999px; padding: 9px 17px; transition: background .2s ease, color .2s ease; }
+.desktop-nav a:hover { background: var(--blue); color: #fff; }
 .desktop-nav a, .header-link, .text-link { transition: color .2s ease; }
 .desktop-nav a:hover, .header-link:hover, .text-link:hover { color: var(--blue-light); }
-.header-link { align-items: center; display: flex; font-size: 12px; gap: 6px; }
+.header-link { align-items: center; display: flex; font-size: 12px; gap: 7px; }
+.header-link svg { color: var(--blue-light); }
 .menu-button { background: none; border: 0; display: none; }
 .mobile-nav { display: none; }
 .hero { background: var(--cream); display: grid; grid-template-columns: 1fr .88fr; min-height: 720px; overflow: hidden; padding: 150px 11vw 90px; position: relative; }
